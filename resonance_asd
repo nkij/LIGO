@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+#To run any python script: execfile("filemame.py")
+#This program plot amplitude spectral density (ASD) of the suspensions during "damping-loop-off" time to find 
+#resonance frequencies of different stages and degree of freedoms of the suspensions to compare with the theoretical model.
+
+import matplotlib.pyplot as plt
+from gwpy.time import Time
+from gwpy.timeseries import TimeSeries
+
+print "Import Modules Success"
+
+#Start-End Time 
+start = Time('2014-02-20 15:00:00', format='iso', scale='utc')
+end = Time('2014-02-20 17:30:00', format='iso', scale='utc')
+print "Start 2014-02-20 15:00:00 UTC"
+print "end 2014-02-20 17:30:00 UTC"
+
+#Fetch Data
+data1=TimeSeries.fetch('L1:SUS-TMSX_M1_DAMP_R_IN1_DQ', start, end, verbose=True)
+print "Fetch Data1 Success"
+data2=TimeSeries.fetch('L1:SUS-TMSX_M1_DAMP_T_IN1_DQ', start, end, verbose=True)
+print "Fetch Data2 Success"
+data3=TimeSeries.fetch('L1:SUS-TMSX_M1_DAMP_V_IN1_DQ', start, end, verbose=True)
+print "Fetch Data3 Success"
+data4=TimeSeries.fetch('L1:SUS-TMSX_M1_DAMP_L_IN1_DQ', start, end, verbose=True)
+print "Fetch Data4 Success"
+data5=TimeSeries.fetch('L1:SUS-TMSX_M1_DAMP_Y_IN1_DQ', start, end, verbose=True)
+print "Fetch Data5 Success"
+data6=TimeSeries.fetch('L1:SUS-TMSX_M1_DAMP_P_IN1_DQ', start, end, verbose=True)
+print "Fetch Data6 Success"
+
+# convert TimeSeries into Spectrum
+asd1 = data1.asd(1000, 500)
+asd2 = data2.asd(1000, 500)
+asd3 = data3.asd(1000, 500)
+asd4 = data4.asd(1000, 500)
+asd5 = data5.asd(1000, 500)
+asd6 = data6.asd(1000, 500)
+
+#Spectrum Plot
+plot_spec1 = asd1.plot()
+#plot_spec1.show()
+plot_spec2 = asd2.plot()
+#plot_spec2.show()
+plot_spec3 = asd3.plot()
+#plot_spec3.show()
+plot_spec4 = asd4.plot()
+#plot_spec4.show()
+plot_spec5 = asd5.plot()
+#plot_spec5.show()
+plot_spec6 = asd6.plot()
+#plot_spec6.show()
+
+plot_spec1.save('L1-SUS-TMSX_M1_DAMP_R_IN1_DQ.png')
+print "Spec Plot1 Saved"
+plot_spec2.save('L1-SUS-TMSX_M1_DAMP_T_IN1_DQ.png')
+print "Spec Plot2 Saved"
+plot_spec3.save('L1-SUS-TMSX_M1_DAMP_V_IN1_DQ.png')
+print "Spec Plot3 Saved"
+plot_spec4.save('L1-SUS-TMSX_M1_DAMP_L_IN1_DQ.png')
+print "Spec Plot4 Saved"
+plot_spec5.save('L1-SUS-TMSX_M1_DAMP_Y_IN1_DQ.png')
+print "Spec Plot5 Saved"
+plot_spec6.save('L1-SUS-TMSX_M1_DAMP_P_IN1_DQ.png')
+print "Spec Plot6 Saved"
+
+
+print "JOB DONE"
