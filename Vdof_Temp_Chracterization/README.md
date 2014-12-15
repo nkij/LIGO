@@ -1,0 +1,1 @@
+Suspensions Thermal Propagation Study. Study how quickly V dof response to temperature change using TCS in-chamber RTDs. This study leads to comparing Brett Shapiro's sus sensitivity predictions.
