@@ -1,0 +1,46 @@
+from gwpy.time import Time
+from gwpy.timeseries import TimeSeries
+from gwpy.plotter import TimeSeriesPlot
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+
+start = Time('2014-11-27 21:00:00', format='iso', scale='utc')
+end = Time('2014-12-01 21:00:00', format='iso', scale='utc')
+print start.iso, start.gps
+print end.iso, end.gps
+
+FMC = TimeSeries.fetch('L0:FMC-CS_LVEA_AVTEMP.mean,m-trend', start, end, verbose=True)
+TCS_HAM4 = TimeSeries.fetch('L1:TCS-ITMY_HWS_CHAMBERTEMPERATURESENSORA.mean,m-trend', start, end, verbose=True)
+TCS_HAM5 = TimeSeries.fetch('L1:TCS-ITMX_HWS_CHAMBERTEMPERATURESENSORA.mean,m-trend', start, end, verbose=True)
+
+#ITMY = TimeSeries.fetch('L1:SUS-ITMY_M0_DAMP_V_IN1_DQ.mean,m-trend', start, end, verbose=True)
+
+print "data fetched"
+
+FMC_C = (FMC-32)*(5.0/9)
+plot = TimeSeriesPlot(FMC_C, TCS_HAM4, sep=True)
+ax1 = plot.axes[0]
+ax1.lines[0].set_color('red')
+ax1.set_ylim(17.5,19.1)
+ax1.set_ylabel('C')
+ax1.set_title('Temperature (4 days)')
+ax1.legend(loc='upper right',  ncol=1, fancybox=True, shadow=True) 
+ax1.grid(True, which='both', axis='both') # add more grid   
+#mj  = MultipleLocator(1)
+ml1 = MultipleLocator(0.1)
+#ax1.yaxis.set_major_locator(mj)
+ax1.yaxis.set_minor_locator(ml1)
+
+ax2 = plot.axes[1]
+ax2.plot(TCS_HAM5, label = 'L1:TCS-ITMX\_HWS\_CHAMBERTEMPERATURESENSORA.mean')
+ax2.set_ylim(18,18.5)
+ax2.set_ylabel('C')
+ax2.legend(loc='upper right',  ncol=1, fancybox=True, shadow=True)
+ax2.grid(True, which='both', axis='both') # add more grid
+#mj  = MultipleLocator(1)
+ml2 = MultipleLocator(0.1)
+#ax1.yaxis.set_major_locator(mj)
+ax2.yaxis.set_minor_locator(ml1)
+
+print 'plotting'
+
+plot.show()
