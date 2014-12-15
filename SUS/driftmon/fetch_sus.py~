@@ -1,0 +1,36 @@
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+
+from gwpy.time import Time
+from gwpy.timeseries import (TimeSeries, TimeSeriesDict)
+
+print "Import Modules Success"
+
+#Start-End Time                                                                                                                                     
+start = Time('2014-06-29 00:00:00', format='iso', scale='utc')
+end = Time('2014-07-02 00:00:00', format='iso', scale='utc')
+print start.iso, start.gps
+print end.iso, end.gps
+
+data1 = TimeSeries.fetch('L1:SUS-ETMX_M0_DAMP_V_IN1_DQ.mean,m-trend', start, end, verbose=True)
+data2 = TimeSeries.fetch('L1:SUS-ETMY_M0_DAMP_V_IN1_DQ.mean,m-trend', start, end, verbose=True)
+
+
+plot_SUS = data1.plot()
+ax = plot_SUS.gca()
+ax.plot(data2, label = 'L1:SUS-ETMY\_M0\_DAMP\_V\_IN1\_DQ.mean')
+#plot_data.show() 
+
+ax.set_epoch(start.gps)
+ax.set_xlim(start.gps, end.gps)
+ax.set_ylabel('Amplitude (urad)')
+ax.set_title('Vertical Position Trends')
+#ax.set_ylim([-1,1])
+ax.legend(loc='upper right', ncol=1, fancybox=True, shadow=True)
+plot_SUS.save('Vertical_Position_Trends_3days.png')
+#plot_data.save('L1-SUS-ETMX_M0_DAMP_P_IN1_DQ_JUN14.png')
+print "PLOT SAVED"
+
+
+# Channel name format
+# QUAD first stage L1:SUS-ITMX_M0_DAMP_Y_IN1_DQ
+# QUAD final stage L1:SUS-ITMX_L3_OPLEV_PIT_OUT_DQ

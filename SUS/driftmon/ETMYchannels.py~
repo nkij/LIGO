@@ -1,0 +1,27 @@
+import matplotlib.pyplot as plt
+from gwpy.time import Time
+from gwpy.timeseries import (TimeSeries, TimeSeriesDict)
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+import pylab
+print "Import Modules Success"
+
+#Start-End Time 
+start = Time('2014-03-24 00:00:00', format='iso', scale='utc')
+end = Time('2014-03-29 00:00:00', format='iso', scale='utc')
+print start.iso, start.gps
+print end.iso, end.gps
+
+
+channels_M0 = []
+OPTICS_M0 = ['ETMY']
+DOFS = ['P', 'R', 'Y']
+TRENDS = ['mean']
+
+for optic_m0 in OPTICS_M0:
+    for dof in DOFS:
+        for trend in TRENDS:
+            channels_M0.append('L1:SUS-%s_M0_DAMP_%s_INMON.%s,m-trend' % (optic_m0, dof, trend))
+
+data_m0 = TimeSeriesDict.fetch(channels_M0, start, end, verbose=True)
+
+print "Download Success"

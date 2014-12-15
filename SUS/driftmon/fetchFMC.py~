@@ -1,0 +1,25 @@
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+
+from gwpy.time import Time
+from gwpy.timeseries import (TimeSeries, TimeSeriesDict)
+
+print "Import Modules Success"
+
+#Start-End Time 
+start = Time('2014-05-12 00:00:00', format='iso', scale='utc')
+end = Time('2014-06-02 00:00:00', format='iso', scale='utc')
+print start.iso, start.gps
+print end.iso, end.gps
+
+data = TimeSeries.fetch('L0:FMC-CS_LVEA_AVTEMP.mean,m-trend', start, end, verbose=True)
+
+plot_data = data.plot()
+ax = plot_data.gca()
+
+ax.set_epoch(start.gps)
+ax.set_xlim(start.gps, end.gps)
+ax.set_ylabel('Temperature (F)')
+ax.set_title(data.channel.texname)
+ax.set_ylim([55,70])
+plot_data.save('L0-FMC-CS_LVEA_AVTEMP_MAY12-MAY19.png')
+print "PLOT SAVED"
