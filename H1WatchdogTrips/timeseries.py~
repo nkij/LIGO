@@ -1,0 +1,16 @@
+#This program plots ISI_ITMX CPS spectrum around 1099109374.275391 (Nov 3 2014 20:08:51 PST/Nov 4 2014 04:08:51)                                                                                                   
+#Before trips 253-373                                                                                                                                                                                              
+#After trips 374-494                                                                                                                                                                                               
+
+from gwpy.timeseries import TimeSeries
+
+
+
+print "Import Module Success"
+
+H1CPS = TimeSeries.fetch('H1:ISI-ITMX_ST1_CPSINF_H1_IN1_DQ', 1099109253.275391, 1099109373.275391)
+H2CPS = TimeSeries.fetch('H1:ISI-ITMX_ST1_CPSINF_H2_IN1_DQ', 1099109253.275391, 1099109373.275391)
+V1CPS = TimeSeries.fetch('H1:ISI-ITMX_ST1_CPSINF_V1_IN1_DQ', 1099109253.275391, 1099109373.275391)
+V2CPS = TimeSeries.fetch('H1:ISI-ITMX_ST1_CPSINF_V2_IN1_DQ', 1099109253.275391, 1099109373.275391)
+
+print "Data Fetched"
